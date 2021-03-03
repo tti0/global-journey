@@ -5,6 +5,7 @@
       <div class="container">
         <h1 class="title">Hello world!</h1>
         <p class="subtitle">Hello world again!</p>
+        <button class="button is-primary" v-on:click="showConfigModal()">Configuration</button>
         <div class="columns">
           <div class="column is-two-thirds">
             Map
@@ -28,6 +29,11 @@ export default {
   components: {
     Config,
     Footer
+  },
+  methods: {
+    showConfigModal: function() {
+      this.$store.commit("showConfigModal");
+    }
   }
 }
 </script>

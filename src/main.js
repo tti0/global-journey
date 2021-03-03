@@ -15,7 +15,8 @@ const vuexPersist = new VuexPersist({
 const store = new Vuex.Store({
   state: {
     units: "km",
-    unitsModifier: 1
+    unitsModifier: 1,
+    configModalActive: true
   },
   mutations: {
     changeUnits(state, newUnits) {
@@ -34,11 +35,18 @@ const store = new Vuex.Store({
           break;
         }
       }
+    },
+    showConfigModal(state) {
+      state.configModalActive = true;
+    },
+    hideConfigModal(state) {
+      state.configModalActive = false;
     }
   },
   getters: {
     units: state => state.units,
-    unitsModifier: state => state.unitsModifier
+    unitsModifier: state => state.unitsModifier,
+    configModalActive: state => state.configModalActive
   },
   plugins: [vuexPersist.plugin]
 });

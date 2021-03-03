@@ -1,10 +1,10 @@
 <template>
-  <div class="modal is-active">
+  <div class="modal" v-bind:class="{ 'is-active' : $store.getters.configModalActive }">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Configuration</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" aria-label="close" v-on:click="hideModal()"></button>
       </header>
       <section class="modal-card-body">
         <div class="field">
@@ -12,7 +12,7 @@
           <div class="control">
             <div class="select">
               <select v-model="units" v-on:change="updateConfig()" name="config-units" id="config-units">
-                <option value="km" default>Kilometre / km</option>
+                <option value="km">Kilometre / km</option>
                 <option value="mile">Miles / m</option>
                 <option value="nm">Nautical miles / nm</option>
               </select>
@@ -30,17 +30,12 @@
 
 <script>
 export default {
-  copmuted: {
-    units () {
-      return this.store.state.units;
-    },
-    modifierFromKm () {
-      return this.store.state.unitsModifier;
-    }
-  },
   methods: {
     updateConfig: function() {
       this.$store.commit("changeUnits", this.units);
+    },
+    hideModal: function() {
+      this.$store.commit("hideConfigModal");
     }
   }
 }
