@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import App from "./App.vue";
+import GreatCircle from "great-circle";
 
 // STORAGE
 
@@ -9,14 +10,21 @@ Vue.use(Vuex);
 
 const vuexPersist = new VuexPersist({
   key: "global-journey",
-  storage: window.localStorage
+  storage: window.sessionStorage
 });
 
 const store = new Vuex.Store({
   state: {
     units: "km",
     unitsModifier: 1,
-    configModalActive: true
+    configModalActive: false,
+    journey: {
+      start: [],
+      end: [],
+      distanceToCover: 100,
+      distanceCovered: 22,
+      contributions: []
+    }
   },
   mutations: {
     changeUnits(state, newUnits) {
@@ -36,6 +44,11 @@ const store = new Vuex.Store({
         }
       }
     },
+    changeJourney(state, coordsStart, coordsEnd) {
+      state.start = coordsStart;
+      state.end = coordsEnd;
+      state.distanceToCover = GreatCircle.distance(coordsStart[0], coordsStart[1], coordsEnd[0], coordsEnd[1]);
+    },
     showConfigModal(state) {
       state.configModalActive = true;
     },
@@ -46,7 +59,10 @@ const store = new Vuex.Store({
   getters: {
     units: state => state.units,
     unitsModifier: state => state.unitsModifier,
-    configModalActive: state => state.configModalActive
+    configModalActive: state => state.configModalActive,
+    distanceToCover: state => state.journey.distanceToCover,
+    distanceCovered: state => state.journey.distanceCovered,
+    journeys: state => state.journey.contributions
   },
   plugins: [vuexPersist.plugin]
 });

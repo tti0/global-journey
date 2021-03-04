@@ -3,12 +3,11 @@
     <Config />
     <section class="section">
       <div class="container">
-        <h1 class="title">Hello world!</h1>
-        <p class="subtitle">Hello world again!</p>
-        <button class="button is-primary" v-on:click="showConfigModal()">Configuration</button>
+        <h1 class="title">global-journey</h1>
+        <p class="subtitle">Hello world!</p>
         <div class="columns">
           <div class="column is-two-thirds">
-            Map
+            <Statistics />
           </div>
           <div class="column">
             Journeys
@@ -21,19 +20,16 @@
 </template>
 
 <script>
-import Config from "./components/Config.vue"
-import Footer from "./components/Footer.vue"
+import Config from "./components/Config.vue";
+import Footer from "./components/Footer.vue";
+import Statistics from "./components/Statistics.vue";
 
 export default {
   name: "App",
   components: {
     Config,
-    Footer
-  },
-  methods: {
-    showConfigModal: function() {
-      this.$store.commit("showConfigModal");
-    }
+    Footer,
+    Statistics
   }
 }
 </script>
