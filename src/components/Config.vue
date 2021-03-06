@@ -12,7 +12,6 @@
           <div class="control">
             <div class="select">
               <select v-model="units" name="config-units">
-                <option disabled>Select an option...</option>
                 <option value="km">Kilometre / km</option>
                 <option value="mile">Miles / m</option>
                 <option value="nm">Nautical miles / nm</option>
@@ -20,10 +19,27 @@
             </div>
           </div>
         </div>
+        <div class="field">
+          <label for="config-start-name" class="label">Name of start location</label>
+          <div class="control">
+            <input type="text" name="config-start-name" id="config-start-name" class="input">
+          </div>
+        </div>
+        <!--<label for="config-start-lat" class="label">Co-ordinates of start location</label>
+        <div class="field is-grouped">
+          <div class="control">
+            <input type="text" name="config-start-lat" id="config-start-lat" class="input" placeholder="Latitude">
+          </div>
+          <p class="control">,</p>
+          <div class="control">
+            <input type="text" name="config-start-long" id="config-start-long" class="input" placeholder="Longitude">
+          </div>
+        </div>
+        <p class="help">Co-ordinates should be specified as signed decimals (e.g. -2 for 2°W, 2 for 2°E).</p>
+        -->
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" v-on:click="updateConfig(); hideModal()">Save changes</button>
-        <button class="button" aria-label="close" v-on:click="hideModal()">Cancel</button>
+        Any changes you have made have been saved automatically.
       </footer>
     </div>
   </div>
@@ -31,11 +47,17 @@
 
 <script>
 export default {
+  computed: {
+    units: {
+      get () {
+        return this.$store.getters.units;
+      },
+      set(value) {
+        this.$store.commit("changeUnits", value);
+      }
+    }
+  },
   methods: {
-    updateConfig: function() {
-      console.log(this.units);
-      this.$store.commit("changeUnits", this.units);
-    },
     hideModal: function() {
       this.$store.commit("hideConfigModal");
     }

@@ -10,7 +10,7 @@
             <Statistics />
           </div>
           <div class="column">
-            Journeys
+            <JourneyList />
           </div>
         </div>
       </div> <!-- close container -->
@@ -23,13 +23,15 @@
 import Config from "./components/Config.vue";
 import Footer from "./components/Footer.vue";
 import Statistics from "./components/Statistics.vue";
+import JourneyList from "./components/JourneyList.vue";
 
 export default {
   name: "App",
   components: {
     Config,
     Footer,
-    Statistics
+    Statistics,
+    JourneyList
   }
 }
 </script>

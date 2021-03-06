@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import App from "./App.vue";
 import GreatCircle from "great-circle";
+import { v4 as uuidv4 } from "uuid";
 
 // STORAGE
 
@@ -19,10 +20,16 @@ const store = new Vuex.Store({
     unitsModifier: 1,
     configModalActive: false,
     journey: {
-      start: [],
-      end: [],
+      start: {
+        coordinates: [null, null],
+        name: null
+      },
+      end: {
+        coordinates: [null, null],
+        name: null
+      },
       distanceToCover: 100,
-      distanceCovered: 22,
+      distanceCovered: 0,
       contributions: []
     }
   },
@@ -54,6 +61,35 @@ const store = new Vuex.Store({
     },
     hideConfigModal(state) {
       state.configModalActive = false;
+    },
+    newJourney(state, payload) {
+      state.journey.contributions.push({
+        id: uuidv4(),
+        time: new Date(),
+        distanceKms: payload[1],
+        contributor: payload[0]
+      });
+      state.journey.distanceCovered = state.journey.contributions.reduce(
+        function(acc, i) {
+          return acc + i.distanceKms
+        }, 0
+      );
+    },
+    dropJourney(state, id) {
+      state.journey.contributions = state.journey.contributions.filter(
+        function (i) {
+          if (i.id === id) {
+            return false
+          } else {
+            return true
+          }
+        }
+      );
+      state.journey.distanceCovered = state.journey.contributions.reduce(
+        function(acc, i) {
+          return acc + i.distanceKms
+        }, 0
+      );
     }
   },
   getters: {
