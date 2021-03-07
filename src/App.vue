@@ -6,7 +6,7 @@
         <h1 class="title">global-journey</h1>
         <p class="subtitle">Hello world!</p>
         <div class="columns">
-          <div class="column is-two-thirds">
+          <div class="column is-three-fifths">
             <Statistics />
           </div>
           <div class="column">

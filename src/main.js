@@ -76,15 +76,7 @@ const store = new Vuex.Store({
       );
     },
     dropJourney(state, id) {
-      state.journey.contributions = state.journey.contributions.filter(
-        function (i) {
-          if (i.id === id) {
-            return false
-          } else {
-            return true
-          }
-        }
-      );
+      state.journey.contributions = state.journey.contributions.filter(i => (i.id !== id));
       state.journey.distanceCovered = state.journey.contributions.reduce(
         function(acc, i) {
           return acc + i.distanceKms
