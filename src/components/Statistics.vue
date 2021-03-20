@@ -9,7 +9,7 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Percentage covered so far</p>
-        <p class="title">{{ Math.round($store.getters.distanceCovered / $store.getters.distanceToCover * 100) }}%</p>
+        <p class="title">{{ Math.floor($store.getters.distanceCovered / $store.getters.distanceToCover * 100) }}%</p>
       </div>
     </div>
     <div class="level-item has-text-centered" v-if="$store.getters.distanceCovered < $store.getters.distanceToCover">

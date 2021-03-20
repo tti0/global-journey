@@ -21,14 +21,21 @@ const store = new Vuex.Store({
     configModalActive: false,
     journey: {
       start: {
-        coordinates: [null, null],
-        name: null
+        lat: 53.479444,
+        lng: -2.245278,
+        name: "Manchester"
       },
       end: {
-        coordinates: [null, null],
+        lat: 35.689722,
+        lng: 139.692222,
+        name: "Tokyo"
+      },
+      current: {
+        lat: null,
+        lng: null,
         name: null
       },
-      distanceToCover: 100,
+      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 35.689722, 139.692222),
       distanceCovered: 0,
       contributions: []
     }
@@ -90,7 +97,9 @@ const store = new Vuex.Store({
     configModalActive: state => state.configModalActive,
     distanceToCover: state => state.journey.distanceToCover,
     distanceCovered: state => state.journey.distanceCovered,
-    journeys: state => state.journey.contributions
+    contributions: state => state.journey.contributions,
+    journeyStart: state => state.journey.start,
+    journeyEnd: state => state.journey.end
   },
   plugins: [vuexPersist.plugin]
 });

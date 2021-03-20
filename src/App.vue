@@ -8,6 +8,7 @@
         <div class="columns">
           <div class="column is-three-fifths">
             <Statistics />
+            <Map />
           </div>
           <div class="column">
             <JourneyList />
@@ -24,6 +25,7 @@ import Config from "./components/Config.vue";
 import Footer from "./components/Footer.vue";
 import Statistics from "./components/Statistics.vue";
 import JourneyList from "./components/JourneyList.vue";
+import Map from "./components/Map.vue";
 
 export default {
   name: "App",
@@ -31,7 +33,8 @@ export default {
     Config,
     Footer,
     Statistics,
-    JourneyList
+    JourneyList,
+    Map
   }
 }
 </script>
