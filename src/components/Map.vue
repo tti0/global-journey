@@ -1,71 +1,69 @@
 <template>
-  <div id="mapContainer">
-      <p>{{ currentPosition }}</p>
+  <div>
+    <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" data-projection="EPSG:4326" style="height: 400px">
+      <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
+      <vl-layer-tile id="osm">
+        <vl-source-osm></vl-source-osm>
+      </vl-layer-tile>
+      <!-- Start -->
+      <vl-feature>
+        <vl-geom-point :coordinates="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]"></vl-geom-point>
+      </vl-feature>
+      <vl-overlay :position="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]">
+        <div class="overlay-content">Start ({{ $store.getters.journeyStart.name }})</div>
+      </vl-overlay>
+      <!-- End -->
+      <vl-feature>
+        <vl-geom-point :coordinates="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]"></vl-geom-point>
+      </vl-feature>
+      <vl-overlay :position="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]">
+        <div class="overlay-content">End ({{ $store.getters.journeyEnd.name }})</div>
+      </vl-overlay>
+      <!-- Geodesic path -->
+      <vl-feature>
+        <vl-geom-multi-line-string :coordinates="[[ [ -3, 53 ], [ 5, 57 ], [ 12, 62 ], [ 19, 66 ], [ 26, 71 ], [ 33, 77 ], [ 40, 84 ], [ 46, 92 ], [ 51, 102 ], [ 56, 114 ], [ 58, 129 ] ]]"></vl-geom-multi-line-string>
+      </vl-feature>
+    </vl-map>
+    <p>{{ geodesicPath }}</p>
   </div>
-
 </template>
 
 <script>
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import "leaflet.geodesic";
 import GreatCircle from "great-circle";
 
 export default {
-  name: "Map",
-  data: function() {
-   return {
-     center: L.latLng(0, 0),
-     zoom: 2
-   }
-  },
   computed: {
-    currentPosition: function() {
+    geodesicPath: function () {
+      var steps = 10;
+      var points = Array(steps);
+      points[0] = 0;
+      var step = this.$store.getters.distanceToCover / steps;
+      for (var i = 1; i <= steps; i++) {
+        points[i] = points[i - 1] + step;
+      }
       var start = this.$store.getters.journeyStart;
-      var end = this.$store.getters.journeyEnd;
-      var bearing = GreatCircle.bearing(start.lat, start.lng, end.lat, end.lng);
-      var currentDistance = this.$store.getters.distanceCovered;
-      return GreatCircle.destination(start.lat, start.lng, bearing, currentDistance);
+      var bearing = this.$store.getters.bearingToEnd;
+      for (var j = 0; j <= steps; j++) {
+        var thisDestination = GreatCircle.destination(start.lng, start.lat, bearing, points[j])
+        points[j] = [thisDestination.LAT, thisDestination.LON];
+      }
+      return points;
     }
   },
-  methods: {
-   setupLeafletMap: function () {
-     const mapDiv = L.map("mapContainer").setView(this.center, this.zoom);
-     L.tileLayer(
-       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-       {
-         attribution:
-           "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-       }
-     ).addTo(mapDiv);
-    var start = this.$store.getters.journeyStart;
-    var end = this.$store.getters.journeyEnd;
-    L.marker([start.lat, start.lng]).addTo(mapDiv)
-      .bindPopup(`Journey start: ${start.name}`);
-    L.marker([end.lat, end.lng]).addTo(mapDiv)
-      .bindPopup(`Journey end: ${end.name}`);
-    // journey geodesic
-    var startCoords = {
-      lat: start.lat,
-      lng: start.lng
-    };
-    var endCoords = {
-      lat: end.lat,
-      lng: end.lng
-    };
-    L.geodesic([startCoords, endCoords]).addTo(mapDiv);
-    // progress geodesic
-    L.geodesic([startCoords, this.currentPosition], {color: "red"}).addTo(mapDiv);
-   }
- },
- mounted: function() {
-   this.setupLeafletMap();
- }
-};
+  data: function() {
+    return { 
+      zoom: 2,
+      center: [0, 0],
+      rotation: 0
+    }
+  }
+}
 </script>
 
 <style scoped>
-  #mapContainer {
-    height: 100vh;
-  }
+.overlay-content {
+	background: #efefef;
+	box-shadow: 0 5px 10px rgba(2, 2, 2, 0.2);
+	padding: 10px 20px;
+}
 </style>

@@ -2,8 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import App from "./App.vue";
-import GreatCircle from "great-circle";
 import { v4 as uuidv4 } from "uuid";
+import GreatCircle from "great-circle";
 
 // STORAGE
 
@@ -37,6 +37,7 @@ const store = new Vuex.Store({
       },
       distanceToCover: GreatCircle.distance(53.479444, -2.245278, 35.689722, 139.692222),
       distanceCovered: 0,
+      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 35.689722, 139.692222),
       contributions: []
     }
   },
@@ -58,10 +59,12 @@ const store = new Vuex.Store({
         }
       }
     },
-    changeJourney(state, coordsStart, coordsEnd) {
-      state.start = coordsStart;
-      state.end = coordsEnd;
-      state.distanceToCover = GreatCircle.distance(coordsStart[0], coordsStart[1], coordsEnd[0], coordsEnd[1]);
+    changeJourney(state, startLat, startLng, endLat, endLng) {
+      state.start.lat = startLat;
+      state.start.lng = startLng;
+      state.end.lat = endLat;
+      state.end.lng = endLng;
+      // state.distanceToCover = olSphere.getDistance([startLng, startLat], [endLng, endLat]);
     },
     showConfigModal(state) {
       state.configModalActive = true;
@@ -78,7 +81,7 @@ const store = new Vuex.Store({
       });
       state.journey.distanceCovered = state.journey.contributions.reduce(
         function(acc, i) {
-          return acc + i.distanceKms
+          return acc + i.distanceKms;
         }, 0
       );
     },
@@ -86,7 +89,7 @@ const store = new Vuex.Store({
       state.journey.contributions = state.journey.contributions.filter(i => (i.id !== id));
       state.journey.distanceCovered = state.journey.contributions.reduce(
         function(acc, i) {
-          return acc + i.distanceKms
+          return acc + i.distanceKms;
         }, 0
       );
     }
@@ -99,10 +102,18 @@ const store = new Vuex.Store({
     distanceCovered: state => state.journey.distanceCovered,
     contributions: state => state.journey.contributions,
     journeyStart: state => state.journey.start,
-    journeyEnd: state => state.journey.end
+    journeyEnd: state => state.journey.end,
+    bearingToEnd: state => state.journey.bearingToEnd
   },
   plugins: [vuexPersist.plugin]
 });
+
+// MAPPING
+
+import VueLayers from "vuelayers";
+import "vuelayers/lib/style.css";
+
+Vue.use(VueLayers);
 
 // APP INIT
 
