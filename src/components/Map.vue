@@ -21,7 +21,7 @@
       </vl-overlay>
       <!-- Geodesic path -->
       <vl-feature>
-        <vl-geom-multi-line-string :coordinates="[[ [ -3, 53 ], [ 5, 57 ], [ 12, 62 ], [ 19, 66 ], [ 26, 71 ], [ 33, 77 ], [ 40, 84 ], [ 46, 92 ], [ 51, 102 ], [ 56, 114 ], [ 58, 129 ] ]]"></vl-geom-multi-line-string>
+        <vl-geom-multi-line-string :coordinates="[geodesicPath]"></vl-geom-multi-line-string>
       </vl-feature>
     </vl-map>
     <p>{{ geodesicPath }}</p>
@@ -34,7 +34,7 @@ import GreatCircle from "great-circle";
 export default {
   computed: {
     geodesicPath: function () {
-      var steps = 10;
+      var steps = 20;
       var points = Array(steps);
       points[0] = 0;
       var step = this.$store.getters.distanceToCover / steps;
@@ -44,8 +44,8 @@ export default {
       var start = this.$store.getters.journeyStart;
       var bearing = this.$store.getters.bearingToEnd;
       for (var j = 0; j <= steps; j++) {
-        var thisDestination = GreatCircle.destination(start.lng, start.lat, bearing, points[j])
-        points[j] = [thisDestination.LAT, thisDestination.LON];
+        var thisDestination = GreatCircle.destination(start.lat, start.lng, bearing, points[j])
+        points[j] = [thisDestination.LON, thisDestination.LAT];
       }
       return points;
     }
