@@ -23,8 +23,14 @@
       <vl-feature>
         <vl-geom-multi-line-string :coordinates="[geodesicPath]"></vl-geom-multi-line-string>
       </vl-feature>
+      <!-- Current -->
+      <vl-feature>
+        <vl-geom-point :coordinates="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]"></vl-geom-point>
+      </vl-feature>
+      <vl-overlay :position="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]">
+        <div class="overlay-content">Current position ({{ $store.getters.journeyCurrent.name }})</div>
+      </vl-overlay>
     </vl-map>
-    <p>{{ geodesicPath }}</p>
   </div>
 </template>
 
@@ -34,7 +40,7 @@ import GreatCircle from "great-circle";
 export default {
   computed: {
     geodesicPath: function () {
-      var steps = 20;
+      var steps = 25;
       var points = Array(steps);
       points[0] = 0;
       var step = this.$store.getters.distanceToCover / steps;

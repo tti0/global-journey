@@ -2,7 +2,7 @@
   <section>
     <h4 class="is-size-4">Contributions</h4>
     <div class="journeylist">
-      <button class="button" v-on:click="$store.commit('newJourney', ['Theodore', 100])">Create new journey</button>
+      <button class="button" v-on:click="$store.commit('newJourney', ['Theodore', 1000])">Create new journey</button>
       <p v-if="$store.getters.contributions.length === 0">No contributions have been recorded yet.</p>
       <table class="table mr-2 ml-2" v-if="$store.getters.contributions.length > 0">
         <thead>

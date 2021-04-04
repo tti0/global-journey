@@ -4,6 +4,7 @@ import VuexPersist from "vuex-persist";
 import App from "./App.vue";
 import { v4 as uuidv4 } from "uuid";
 import GreatCircle from "great-circle";
+import axios from "axios";
 
 // STORAGE
 
@@ -26,18 +27,18 @@ const store = new Vuex.Store({
         name: "Manchester"
       },
       end: {
-        lat: 35.689722,
-        lng: 139.692222,
-        name: "Tokyo"
+        lat: 41.881944,
+        lng: -87.627778,
+        name: "Chicago"
       },
       current: {
         lat: null,
         lng: null,
         name: null
       },
-      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 35.689722, 139.692222),
+      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 41.881944, -87.627778),
       distanceCovered: 0,
-      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 35.689722, 139.692222),
+      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 41.881944, -87.627778),
       contributions: []
     }
   },
@@ -64,7 +65,6 @@ const store = new Vuex.Store({
       state.start.lng = startLng;
       state.end.lat = endLat;
       state.end.lng = endLng;
-      // state.distanceToCover = olSphere.getDistance([startLng, startLat], [endLng, endLat]);
     },
     showConfigModal(state) {
       state.configModalActive = true;
@@ -84,6 +84,25 @@ const store = new Vuex.Store({
           return acc + i.distanceKms;
         }, 0
       );
+      var currentPos = GreatCircle.destination(state.journey.start.lat, state.journey.start.lng, state.journey.bearingToEnd, state.journey.distanceCovered);
+      state.journey.current.lat = currentPos.LAT;
+      state.journey.current.lng = currentPos.LON;
+      axios.get("https://api.opencagedata.com/geocode/v1/json",
+      {
+        params: {
+          key: process.env.VUE_APP_OPENCAGEDATA_API_KEY,
+          q: `${state.journey.current.lat}+${state.journey.current.lng}`,
+          language: "en"
+        }
+      })
+        .then(function(res) {
+          state.journey.current.name = res.data.results[0].formatted;
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
     },
     dropJourney(state, id) {
       state.journey.contributions = state.journey.contributions.filter(i => (i.id !== id));
@@ -92,6 +111,9 @@ const store = new Vuex.Store({
           return acc + i.distanceKms;
         }, 0
       );
+      var currentPos = GreatCircle.destination(state.journey.start.lat, state.journey.start.lng, state.journey.bearingToEnd, state.journey.distanceCovered);
+      state.journey.current.lat = currentPos.LAT;
+      state.journey.current.lng = currentPos.LON;
     }
   },
   getters: {
@@ -103,8 +125,14 @@ const store = new Vuex.Store({
     contributions: state => state.journey.contributions,
     journeyStart: state => state.journey.start,
     journeyEnd: state => state.journey.end,
-    bearingToEnd: state => state.journey.bearingToEnd
+    bearingToEnd: state => state.journey.bearingToEnd,
+    journeyCurrent: state => state.journey.current
   },
+  /*actions: {
+    updateCurrent: function(state) {
+
+    }
+  }*/
   plugins: [vuexPersist.plugin]
 });
 
@@ -122,4 +150,4 @@ Vue.config.productionTip = false;
 new Vue({
   render: h => h(App),
   store: store
-}).$mount('#app');
+}).$mount("#app");
