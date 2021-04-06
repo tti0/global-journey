@@ -1,42 +1,42 @@
 <template>
   <div id="app">
-    <Config />
-    <section class="section">
-      <div class="container">
-        <h1 class="title">global-journey</h1>
-        <p class="subtitle">Hello world!</p>
-        <div class="columns">
-          <div class="column is-three-fifths">
-            <Statistics />
-            <Map />
-          </div>
-          <div class="column">
-            <JourneyList />
-          </div>
-        </div>
-      </div> <!-- close container -->
-    </section>
-    <Footer />
+  <ConfigModal />
+  <section class="section">
+    <div class="container">
+    <h1 class="title">global-journey</h1>
+    <p class="subtitle">Subtitle</p>
+    <div class="columns">
+      <div class="column is-three-fifths">
+      <StatisticsBar />
+      <TheMap />
+      </div>
+      <div class="column">
+      <JourneyList />
+      </div>
+    </div>
+    </div> <!-- close container -->
+  </section>
+  <TheFooter />
   </div>
 </template>
 
 <script>
-import Config from "./components/Config.vue";
-import Footer from "./components/Footer.vue";
-import Statistics from "./components/Statistics.vue";
+import ConfigModal from "./components/ConfigModal.vue";
+import TheFooter from "./components/TheFooter.vue";
+import StatisticsBar from "./components/StatisticsBar.vue";
 import JourneyList from "./components/JourneyList.vue";
-import Map from "./components/Map.vue";
+import TheMap from "./components/TheMap.vue";
 
 export default {
   name: "App",
   components: {
-    Config,
-    Footer,
-    Statistics,
+    ConfigModal,
+    TheFooter,
+    StatisticsBar,
     JourneyList,
-    Map
-  }
-}
+    TheMap,
+  },
+};
 </script>
 
 <style>
