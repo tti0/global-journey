@@ -1,36 +1,36 @@
 <template>
   <div>
-  <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" data-projection="EPSG:4326" style="height: 400px">
+  <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" data-projection="EPSG:4326" style="height: 500px">
     <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
     <vl-layer-tile id="osm">
-    <vl-source-osm></vl-source-osm>
+      <vl-source-osm></vl-source-osm>
     </vl-layer-tile>
     <!-- Start -->
     <vl-feature>
-    <vl-geom-point :coordinates="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]"></vl-geom-point>
+      <vl-geom-point :coordinates="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]"></vl-geom-point>
     </vl-feature>
     <vl-overlay :position="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]">
-    <div class="overlay-content">Start ({{ $store.getters.journeyStart.name }})</div>
+      <div class="overlay-content">Start ({{ $store.getters.journeyStart.name }})</div>
     </vl-overlay>
     <!-- End -->
     <vl-feature>
-    <vl-geom-point :coordinates="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]"></vl-geom-point>
+      <vl-geom-point :coordinates="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]"></vl-geom-point>
     </vl-feature>
     <vl-overlay :position="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]">
-    <div class="overlay-content">End ({{ $store.getters.journeyEnd.name }})</div>
+      <div class="overlay-content">End ({{ $store.getters.journeyEnd.name }})</div>
     </vl-overlay>
     <!-- Geodesic path -->
     <vl-feature>
-    <vl-geom-line-string :coordinates="geodesicPath"></vl-geom-line-string>
+      <vl-geom-line-string :coordinates="geodesicPath"></vl-geom-line-string>
     </vl-feature>
     <!-- Current -->
-    <div>
-    <vl-feature>
-      <vl-geom-point :coordinates="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]"></vl-geom-point>
-    </vl-feature>
-    <vl-overlay :position="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]">
-      <div class="overlay-content">Current position ({{ $store.getters.journeyCurrent.name }})</div>
-    </vl-overlay>
+    <div v-if="($store.getters.distanceCovered !== 0) && (! ($store.getters.distanceCovered >= $store.getters.distanceToCover))">
+      <vl-feature>
+        <vl-geom-point :coordinates="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]"></vl-geom-point>
+      </vl-feature>
+      <vl-overlay :position="[$store.getters.journeyCurrent.lng, $store.getters.journeyCurrent.lat]">
+        <div class="overlay-content">Current position ({{ $store.getters.journeyCurrent.name }})</div>
+      </vl-overlay>
     </div>
   </vl-map>
   </div>

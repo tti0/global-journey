@@ -25,18 +25,18 @@ export default new Vuex.Store({
         name: "Manchester",
       },
       end: {
-        lat: 41.881944,
-        lng: -87.627778,
-        name: "Chicago",
+        lat: 25.263056,
+        lng: 55.297222,
+        name: "Dubai",
       },
       current: {
         lat: null,
         lng: null,
         name: null,
       },
-      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 41.881944, -87.627778),
+      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 25.263056, 55.297222),
       distanceCovered: 0,
-      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 41.881944, -87.627778),
+      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 25.263056, 55.297222),
       contributions: [],
     },
   },
@@ -112,10 +112,31 @@ export default new Vuex.Store({
             key: process.env.VUE_APP_OPENCAGEDATA_API_KEY,
             q: `${currentPosObject.lat}+${currentPosObject.lng}`,
             language: "en",
+            no_annotations: 1
           },
         })
         .then((res) => {
-          currentPosObject.name = res.data.results[0].formatted;
+          res = res.data.results[0];
+          console.log(res);
+          if (res.components._type === "body_of_water") {
+            currentPosObject.name = res.formatted;
+          } else {
+            let country = res.components.country;
+            let state = res.components.state;
+            let county = res.components.county;
+            let city = res.components.city;
+            if (city) {
+              currentPosObject.name = `${city}, ${country}`;
+            } else if (state) {
+              currentPosObject.name = `${state}, ${country}`;
+            } else if (county) {
+              currentPosObject.name = `${county}, ${country}`;
+            } else if (country) {
+              currentPosObject.name = country;
+            } else {
+              currentPosObject.name = res.formatted;
+            }
+          }
           context.commit("setCurrentPosition", currentPosObject);
         })
         .catch((err) => {

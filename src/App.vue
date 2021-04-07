@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-  <ConfigModal />
-  <section class="section">
-    <div class="container">
-    <h1 class="title">global-journey</h1>
-    <p class="subtitle">Subtitle</p>
-    <div class="columns">
-      <div class="column is-three-fifths">
-      <StatisticsBar />
-      <TheMap />
-      </div>
-      <div class="column">
-      <JourneyList />
-      </div>
-    </div>
-    </div> <!-- close container -->
-  </section>
-  <TheFooter />
+    <ConfigModal />
+    <section class="section">
+      <div class="container">
+        <h1 class="title">global-journey</h1>
+        <p class="subtitle">Subtitle</p>
+        <div class="columns">
+          <div class="column is-three-fifths">
+            <StatisticsBar />
+            <TheMap />
+          </div>
+          <div class="column">
+            <JourneyList />
+          </div>
+        </div>
+      </div> <!-- close container -->
+    </section>
+    <TheFooter />
   </div>
 </template>
 
