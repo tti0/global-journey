@@ -117,7 +117,6 @@ export default new Vuex.Store({
         })
         .then((res) => {
           res = res.data.results[0];
-          console.log(res);
           if (res.components._type === "body_of_water") {
             currentPosObject.name = res.formatted;
           } else {
@@ -141,6 +140,8 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.error(err);
+          currentPosObject.name = `${currentPosObject.lat}, ${currentPosObject.lng}`;
+          context.commit("setCurrentPosition", currentPosObject);
         });
     },
     newContribution(context, payload) {
