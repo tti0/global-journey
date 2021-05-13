@@ -10,14 +10,14 @@
       <vl-geom-point :coordinates="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]"></vl-geom-point>
     </vl-feature>
     <vl-overlay :position="[$store.getters.journeyStart.lng, $store.getters.journeyStart.lat]">
-      <div class="overlay-content">Start ({{ $store.getters.journeyStart.name }})</div>
+      <div class="overlay-content">Start<span v-if="$store.getters.journeyStart.name !== ''"> ({{ $store.getters.journeyStart.name }})</span></div>
     </vl-overlay>
     <!-- End -->
     <vl-feature>
       <vl-geom-point :coordinates="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]"></vl-geom-point>
     </vl-feature>
     <vl-overlay :position="[$store.getters.journeyEnd.lng, $store.getters.journeyEnd.lat]">
-      <div class="overlay-content">End ({{ $store.getters.journeyEnd.name }})</div>
+      <div class="overlay-content">End<span v-if="$store.getters.journeyEnd.name !== ''"> ({{ $store.getters.journeyEnd.name }})</span></div>
     </vl-overlay>
     <!-- Geodesic path -->
     <vl-feature>

@@ -58,11 +58,11 @@ export default new Vuex.Store({
         }
       }
     },
-    changeJourney(state, startLat, startLng, endLat, endLng) {
-      state.start.lat = startLat;
-      state.start.lng = startLng;
-      state.end.lat = endLat;
-      state.end.lng = endLng;
+    changeJourneyStartName(state, startName) {
+      state.journey.start.name = startName;
+    },
+    changeJourneyEndName(state, endName) {
+      state.journey.end.name = endName;
     },
     showConfigModal(state) {
       state.configModalActive = true;
