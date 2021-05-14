@@ -1,0 +1,26 @@
+<template>
+  <div class="columns">
+    <div class="column is-three-fifths">
+      <StatisticsBar />
+      <TheMap />
+    </div>
+    <div class="column">
+      <JourneyList />
+    </div>
+  </div>
+</template>
+
+<script>
+import StatisticsBar from "@/components/StatisticsBar.vue";
+import JourneyList from "@/components/JourneyList.vue";
+import TheMap from "@/components/TheMap.vue";
+
+export default {
+  name: "App",
+  components: {
+    StatisticsBar,
+    JourneyList,
+    TheMap,
+  },
+};
+</script>
