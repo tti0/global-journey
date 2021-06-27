@@ -7,17 +7,17 @@ export default {
   props: ["kms"],
   computed: {
     distanceUnit() {
-      if (this.$store.getters.units === "km" || this.$store.getters.units === "nm") {
-        return this.$store.getters.units;
+      if (this.$store.state.units === "km" || this.$store.state.units === "nm") {
+        return this.$store.state.units;
       }
       // miles
-      if (this.kms * this.$store.getters.unitsModifier === 1) {
+      if (this.kms * this.$store.state.unitsModifier === 1) {
         return " mile";
       }
       return " miles";
     },
     distanceNumber() {
-      return (this.kms * this.$store.getters.unitsModifier).toFixed(1);
+      return (this.kms * this.$store.state.unitsModifier).toFixed(1);
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-bind:class="{ 'is-active' : $store.getters.configModalActive }">
+  <div class="modal" v-bind:class="{ 'is-active' : $store.state.configModalActive }">
     <div class="modal-background"></div>
     <div class="modal-card">
 
@@ -73,7 +73,7 @@ export default {
   computed: {
     units: {
       get: function() {
-        return this.$store.getters.units;
+        return this.$store.state.units;
       },
       set: function(newUnits) {
         this.$store.commit("changeUnits", newUnits);
@@ -81,7 +81,7 @@ export default {
     },
     startName: {
       get: function() {
-        return this.$store.getters.journeyStart.name;
+        return this.$store.state.journey.start.name;
       },
       set: function(newStartName) {
         this.$store.commit("changeJourneyStartName", newStartName);
@@ -89,7 +89,7 @@ export default {
     },
     endName: {
       get: function() {
-        return this.$store.getters.journeyEnd.name;
+        return this.$store.state.journey.end.name;
       },
       set: function(newEndName) {
         this.$store.commit("changeJourneyEndName", newEndName);

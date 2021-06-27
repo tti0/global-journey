@@ -35,7 +35,6 @@ export default new Vuex.Store({
         name: null,
       },
       distanceToCover: GreatCircle.distance(53.479444, -2.245278, 25.263056, 55.297222),
-      distanceCovered: 0,
       bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 25.263056, 55.297222),
       contributions: [],
     },
@@ -92,12 +91,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateDistanceCoveredFromContext(context) {
-      const distanceCovered = context.getters.contributions.reduce(
-        (acc, i) => acc + i.distanceKms, 0,
-      );
-      context.commit("setDistanceCovered", distanceCovered);
-    },
     updateCurrentPositionFromContext(context) {
       const start = context.getters.journeyStart;
       const currentPos = GreatCircle.destination(start.lat, start.lng, context.getters.bearingToEnd, context.getters.distanceCovered);
@@ -146,27 +139,19 @@ export default new Vuex.Store({
     },
     newContribution(context, payload) {
       context.commit("newContribution", payload);
-      context.dispatch("updateDistanceCoveredFromContext");
       context.dispatch("updateCurrentPositionFromContext");
     },
     dropContribution(context, id) {
       context.commit("dropContribution", id);
-      context.dispatch("updateDistanceCoveredFromContext");
       context.dispatch("updateCurrentPositionFromContext");
     },
   },
   getters: {
-    units: (state) => state.units,
-    unitsModifier: (state) => state.unitsModifier,
-    configModalActive: (state) => state.configModalActive,
-    distanceToCover: (state) => state.journey.distanceToCover,
-    distanceCovered: (state) => state.journey.distanceCovered,
-    contributions: (state) => state.journey.contributions,
-    journeyStart: (state) => state.journey.start,
-    journeyEnd: (state) => state.journey.end,
-    bearingToEnd: (state) => state.journey.bearingToEnd,
-    journeyCurrent: (state) => state.journey.current,
-    initialised: (state) => state.initialised,
+    totalDistanceCoveredKms: function(state) {
+      return state.journey.contributions.reduce(
+        (acc, i) => acc + i.distanceKms, 0,
+      );
+    }
   },
   plugins: [vuexPersist.plugin],
 });
