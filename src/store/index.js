@@ -92,8 +92,8 @@ export default new Vuex.Store({
   },
   actions: {
     updateCurrentPositionFromContext(context) {
-      const start = context.getters.journeyStart;
-      const currentPos = GreatCircle.destination(start.lat, start.lng, context.getters.bearingToEnd, context.getters.distanceCovered);
+      const start = context.state.journey.start;
+      const currentPos = GreatCircle.destination(start.lat, start.lng, context.state.journey.bearingToEnd, context.getters.totalDistanceCoveredKms);
       const currentPosObject = {
         lat: currentPos.LAT,
         lng: currentPos.LON,
