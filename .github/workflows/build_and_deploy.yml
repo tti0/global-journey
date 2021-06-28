@@ -11,27 +11,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: "12.x"
     - run: npm ci
     - run: npm run build --if-present
       env:
         VUE_APP_OPENCAGEDATA_API_KEY: ${{ secrets.VUE_APP_OPENCAGEDATA_API_KEY }}
-    - name: Upload Files with SFTP
-      uses: Creepios/sftp-action@v1.0.1
+    - name: SFTP uploader
+      uses: wangyucode/sftp-upload-action@v1.1
       with:
         host: ${{ secrets.TTI0_NET_SFTP_SERVER }}
         port: 22
         username: ${{ secrets.TTI0_NET_SFTP_USER }}
         password: ${{ secrets.TTI0_NET_SFTP_PASSWORD }}
-        localPath: './dist/'
-        remotePath: './'
+        localPath: 'dist'
+        remotePath: '/'
