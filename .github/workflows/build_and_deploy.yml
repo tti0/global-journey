@@ -12,20 +12,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - name: Download from GitHub
+      uses: actions/checkout@v2
+    - name: Setup NodeJS environment
+      uses: actions/setup-node@v2
       with:
         node-version: "12.x"
     - run: npm ci
     - run: npm run build --if-present
       env:
         VUE_APP_OPENCAGEDATA_API_KEY: ${{ secrets.VUE_APP_OPENCAGEDATA_API_KEY }}
-    - name: SFTP uploader
+    - name: Add .htaccess to redirect to HTTPS
+      uses: finnp/create-file-action@master
+      env:
+        FILE_NAME: "dist/.htaccess"
+        FILE_BASE64: "UmV3cml0ZUVuZ2luZSBPbgpSZXdyaXRlQ29uZCAle1NFUlZFUl9QT1JUfSAhPTQ0MwpSZXdyaXRlUnVsZSBeKC4qKSQgaHR0cHM6Ly9nbG9iYWwtam91cm5leS50dGkwLm5ldC8kMSBbUj0zMDEsTF0="
+    - name: Upload to hosting with SFTP
       uses: wangyucode/sftp-upload-action@v1.1
       with:
         host: ${{ secrets.TTI0_NET_SFTP_SERVER }}
         port: 22
         username: ${{ secrets.TTI0_NET_SFTP_USER }}
         password: ${{ secrets.TTI0_NET_SFTP_PASSWORD }}
-        localDir: 'dist'
-        remoteDir: '/'
+        localDir: "dist"
+        remoteDir: "/"
