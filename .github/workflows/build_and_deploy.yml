@@ -34,3 +34,4 @@ jobs:
         password: ${{ secrets.TTI0_NET_SFTP_PASSWORD }}
         protocol: ftps
         port: 22
+        local-dir: ./dist/
