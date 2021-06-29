@@ -6,6 +6,8 @@
     </div>
     <div class="column">
       <JourneyList />
+      <hr>
+      <router-link to="config" class="button is-link is-fullwidth">Change configuration</router-link>
     </div>
   </div>
 </template>
@@ -16,7 +18,7 @@ import JourneyList from "@/components/JourneyList.vue";
 import TheMap from "@/components/TheMap.vue";
 
 export default {
-  name: "App",
+  name: "HomeView",
   components: {
     StatisticsBar,
     JourneyList,

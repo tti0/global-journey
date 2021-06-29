@@ -17,7 +17,6 @@ export default new Vuex.Store({
     initialised: false,
     units: "km",
     unitsModifier: 1,
-    configModalActive: false,
     journey: {
       start: {
         lat: 53.479444,
@@ -63,12 +62,6 @@ export default new Vuex.Store({
     changeJourneyEndName(state, endName) {
       state.journey.end.name = endName;
     },
-    showConfigModal(state) {
-      state.configModalActive = true;
-    },
-    hideConfigModal(state) {
-      state.configModalActive = false;
-    },
     newContribution(state, payload) {
       state.journey.contributions.push({
         id: uuidv4(),
@@ -89,6 +82,18 @@ export default new Vuex.Store({
     initialise(state) {
       state.initialised = true;
     },
+    setJourneyStartPosition(state, payload) {
+      state.journey.start.lat = payload.lat;
+      state.journey.start.lng = payload.lng;
+      state.journey.distanceToCover = GreatCircle.distance(state.journey.start.lat, state.journey.start.lng, state.journey.end.lat, state.journey.end.lng);
+      state.journey.bearingToEnd = GreatCircle.bearing(state.journey.start.lat, state.journey.start.lng, state.journey.end.lat, state.journey.end.lng);
+    },
+    setJourneyEndPosition(state, payload) {
+      state.journey.end.lat = payload.lat;
+      state.journey.end.lng = payload.lng;
+      state.journey.distanceToCover = GreatCircle.distance(state.journey.start.lat, state.journey.start.lng, state.journey.end.lat, state.journey.end.lng);
+      state.journey.bearingToEnd = GreatCircle.bearing(state.journey.start.lat, state.journey.start.lng, state.journey.end.lat, state.journey.end.lng);
+    }
   },
   actions: {
     updateCurrentPositionFromContext(context) {
@@ -145,6 +150,14 @@ export default new Vuex.Store({
       context.commit("dropContribution", id);
       context.dispatch("updateCurrentPositionFromContext");
     },
+    changeStartPosition(context, payload) {
+      context.commit("setJourneyStartPosition", payload);
+      context.dispatch("updateCurrentPositionFromContext");
+    },
+    changeEndPosition(context, payload) {
+      context.commit("setJourneyEndPosition", payload);
+      context.dispatch("updateCurrentPositionFromContext");
+    }
   },
   getters: {
     totalDistanceCoveredKms: function(state) {
