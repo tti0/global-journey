@@ -3,7 +3,7 @@
     <section class="section">
       <div class="container">
         <h1 class="title">global-journey</h1>
-        <p class="subtitle">Subtitle</p>
+        <p class="subtitle">Track contributions to a journey across the world</p>
         <router-view></router-view>
       </div>
     </section>
@@ -23,5 +23,5 @@ export default {
 </script>
 
 <style>
-@import "../node_modules/bulma/css/bulma.css";
+@import "../node_modules/bulma/css/bulma.min.css";
 </style>

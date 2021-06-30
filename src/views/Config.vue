@@ -2,11 +2,17 @@
   <div>
     <h3 class="title is-4">Configuration</h3>
 
-    <router-link to="/" class="button is-link">❮ Back</router-link>
+    <div class="columns">
+      <div class="column">
+        <router-link to="/" class="button is-link">❮ Back</router-link>
+      </div>
+    </div>
 
     <div class="notification">
       Any changes you make will be automatically saved.
     </div>
+
+    <hr>
 
     <div class="field">
       <label for="config-units" class="label">Display units</label>
@@ -29,8 +35,8 @@
       <p class="help is-danger" v-if="validationErrors.configStartName">{{ validationErrors.configStartName }}</p>
     </div>
 
-    <label for="config-start-lat" class="label">Co-ordinates of start location</label>
-    <div class="field is-grouped">
+    <label for="config-start-lat" class="label">Co-ordinates of start location</label> <!-- Intentionally out of field div for correct mobile rendering -->
+    <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <input type="text" name="config-start-lat" class="input" placeholder="Latitude" v-model="startLat" v-bind:class="{ 'is-danger': validationErrors.configStartCoords }">
       </div>
@@ -51,7 +57,7 @@
     </div>
 
     <label for="config-end-lat" class="label">Co-ordinates of end location</label>
-    <div class="field is-grouped">
+    <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <input type="text" name="config-end-lat" class="input" placeholder="Latitude" v-model="endLat" v-bind:class="{ 'is-danger': validationErrors.configEndCoords }">
       </div>
