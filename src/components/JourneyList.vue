@@ -2,7 +2,7 @@
   <section>
     <h4 class="is-size-4">Contributions</h4>
     <div class="journeylist">
-      <button class="button" v-on:click="$store.dispatch('newContribution', {contributor: 'Test', distanceKms: 100})" v-if="! ($store.getters.totalDistanceCoveredKms >= $store.state.journey.distanceToCover)">Create new journey</button>
+      <button class="button" v-on:click="$store.dispatch('newContribution', {contributor: 'Example', distanceKms: 250})" v-if="! ($store.getters.totalDistanceCoveredKms >= $store.state.journey.distanceToCover)">Create new contribution</button>
       <p v-if="$store.state.journey.contributions.length === 0">No contributions have been recorded yet.</p>
       <table class="table mr-2 ml-2" v-if="$store.state.journey.contributions.length > 0">
         <thead>

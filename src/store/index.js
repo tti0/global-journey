@@ -24,17 +24,17 @@ export default new Vuex.Store({
         name: "Manchester",
       },
       end: {
-        lat: 25.263056,
-        lng: 55.297222,
-        name: "Dubai",
+        lat: -31.952222,
+        lng: 115.858889,
+        name: "Perth",
       },
       current: {
         lat: null,
         lng: null,
         name: null,
       },
-      distanceToCover: GreatCircle.distance(53.479444, -2.245278, 25.263056, 55.297222),
-      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, 25.263056, 55.297222),
+      distanceToCover: GreatCircle.distance(53.479444, -2.245278, -31.952222, 115.858889),
+      bearingToEnd: GreatCircle.bearing(53.479444, -2.245278, -31.952222, 115.858889),
       contributions: [],
     },
   },
@@ -164,6 +164,9 @@ export default new Vuex.Store({
       return state.journey.contributions.reduce(
         (acc, i) => acc + i.distanceKms, 0,
       );
+    },
+    contributionFromId: function(state, id) {
+      return state.journey.contributions.filter((i) => i.id === id);
     }
   },
   plugins: [vuexPersist.plugin],

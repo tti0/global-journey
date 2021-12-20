@@ -7,7 +7,7 @@
     <div class="column">
       <JourneyList />
       <hr>
-      <router-link to="config" class="button is-link is-fullwidth">Change configuration</router-link>
+      <router-link to="/configuration" class="button is-link is-fullwidth">Change configuration</router-link>
     </div>
   </div>
 </template>
