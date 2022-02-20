@@ -2,11 +2,11 @@
 
 A Vue web app to track contributions to a journey across the world.
 
-*This project is not entirely complete and is no longer maintained. Release v0.2.0 is the first and final public release (providing no critical security issues/bugs arise).*
+*This project is not entirely complete and is no longer maintained. v0.2.2 is the final public release.*
 
 ## Description
 
-global-journey is a web application written in Vue.js (with Vuex and Vue Router) to keep track of and visulise cumulative journeys, as were common in the first COVID-19 lockdown; for example, students at a school each running 10km of the distance from the school to Tokyo.
+global-journey is a web application written in Vue.js (with Vuex and Vue Router) to keep track of and visualise cumulative journeys, as were common in the first COVID-19 lockdown; for example, students at a school each running 10km of the distance from the school to Tokyo.
 
 Entered data is stored in the web browser's `localStorage`, so is retained between visits.
 
@@ -23,9 +23,9 @@ Forking and future development of the project would be welcome.
 + Customisable units (from miles, km, or nm)
 + Customisable journey start and end locations
 + Percentage covered indication
-+ Success message when 100% of the journey has been compelted
++ Success message when 100% of the journey has been completed
 + Fully responsive design (using Bulma CSS)
-+ Automatic delpoyment to production with GitHub Actions
++ Automatic deployment to production with GitHub Actions
 
 ### Desirable future features
 
